@@ -11,7 +11,7 @@
         powershell -ExecutionPolicy Bypass -File Guiport.ps1
 #>
 
-# ─── Auto-elevacao ────────────────────────────────────────────────────────────
+# â”€â”€â”€ Auto-elevacao â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
     [Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Write-Host "  Guiport requer privilegios de Administrador. A reiniciar..." -ForegroundColor Yellow
@@ -25,25 +25,25 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
     exit
 }
 
-# ─── Assemblies ───────────────────────────────────────────────────────────────
+# â”€â”€â”€ Assemblies â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.Windows.Forms
 [void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
 
-# ─── Sync hashtable (partilhado entre runspaces) ─────────────────────────────
+# â”€â”€â”€ Sync hashtable (partilhado entre runspaces) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $sync = [Hashtable]::Synchronized(@{})
 $sync.ProcessRunning = $false
 
-# ─── Logo ASCII ───────────────────────────────────────────────────────────────
+# â”€â”€â”€ Logo ASCII â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Show-GuiportLogo {
     Clear-Host
     Write-Host ""
-    Write-Host "   ██████╗ ██╗   ██╗██╗██████╗  ██████╗ ██████╗ ████████╗" -ForegroundColor Yellow
-    Write-Host "  ██╔════╝ ██║   ██║██║██╔══██╗██╔═══██╗██╔══██╗╚══██╔══╝" -ForegroundColor Yellow
-    Write-Host "  ██║  ███╗██║   ██║██║██████╔╝██║   ██║██████╔╝   ██║   " -ForegroundColor Yellow
-    Write-Host "  ██║   ██║██║   ██║██║██╔═══╝ ██║   ██║██╔══██╗   ██║   " -ForegroundColor Yellow
-    Write-Host "  ╚██████╔╝╚██████╔╝██║██║     ╚██████╔╝██║  ██║   ██║   " -ForegroundColor Yellow
-    Write-Host "   ╚═════╝  ╚═════╝ ╚═╝╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝  " -ForegroundColor Yellow
+    Write-Host "   â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•— â–ˆâ–ˆâ•—   â–ˆâ–ˆâ•—â–ˆâ–ˆâ•—â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—  â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•— â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•— â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—" -ForegroundColor Yellow
+    Write-Host "  â–ˆâ–ˆâ•”â•â•â•â•â• â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â–ˆâ–ˆâ•”â•â•â•â–ˆâ–ˆâ•—â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â•šâ•â•â–ˆâ–ˆâ•”â•â•â•" -ForegroundColor Yellow
+    Write-Host "  â–ˆâ–ˆâ•‘  â–ˆâ–ˆâ–ˆâ•—â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•‘â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•   â–ˆâ–ˆâ•‘   " -ForegroundColor Yellow
+    Write-Host "  â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•”â•â•â•â• â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—   â–ˆâ–ˆâ•‘   " -ForegroundColor Yellow
+    Write-Host "  â•šâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•â•šâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•‘     â•šâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•â–ˆâ–ˆâ•‘  â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘   " -ForegroundColor Yellow
+    Write-Host "   â•šâ•â•â•â•â•â•  â•šâ•â•â•â•â•â• â•šâ•â•â•šâ•â•      â•šâ•â•â•â•â•â• â•šâ•â•  â•šâ•â•   â•šâ•â•  " -ForegroundColor Yellow
     Write-Host ""
     Write-Host "  PC Optimizer  -  Inspirado no WinUtil de Chris Titus Tech" -ForegroundColor DarkGray
     Write-Host ""
@@ -51,7 +51,7 @@ function Show-GuiportLogo {
 
 Show-GuiportLogo
 
-# ─── Runspace helper ─────────────────────────────────────────────────────────
+# â”€â”€â”€ Runspace helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Invoke-GuiportRunspace {
     param([ScriptBlock]$ScriptBlock, [string]$ArgumentList)
     $ps = [powershell]::Create()
@@ -62,7 +62,7 @@ function Invoke-GuiportRunspace {
     return @{ handle = $handle; ps = $ps }
 }
 
-# ─── Registry helper ─────────────────────────────────────────────────────────
+# â”€â”€â”€ Registry helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Set-GuiportRegistry {
     param(
         [string]$Path,
@@ -74,7 +74,7 @@ function Set-GuiportRegistry {
     Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type $Type -Force
 }
 
-# ─── XAML ─────────────────────────────────────────────────────────────────────
+# â”€â”€â”€ XAML â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $xaml = @'
 <Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -179,7 +179,7 @@ $xaml = @'
                                     Background="{StaticResource Bg3Brush}"
                                     BorderBrush="#333" BorderThickness="1.5"
                                     VerticalAlignment="Center">
-                                <TextBlock x:Name="chk" Text="✓" FontSize="10" FontWeight="Bold"
+                                <TextBlock x:Name="chk" Text="âœ“" FontSize="10" FontWeight="Bold"
                                            HorizontalAlignment="Center" VerticalAlignment="Center"
                                            Foreground="#000" Visibility="Collapsed"/>
                             </Border>
@@ -359,7 +359,7 @@ $xaml = @'
                 <RowDefinition Height="130"/>  <!-- Console -->
             </Grid.RowDefinitions>
 
-            <!-- ═══ TITLEBAR ═══════════════════════════════════════════════ -->
+            <!-- â•â•â• TITLEBAR â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
             <Border Grid.Row="0" Background="{StaticResource Bg1Brush}"
                     CornerRadius="12,12,0,0"
                     BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,0,1"
@@ -383,7 +383,7 @@ $xaml = @'
                                VerticalAlignment="Center" Margin="0,0,0,0"/>
 
                     <TextBlock Grid.Column="3" x:Name="StatusText"
-                               Text="● ONLINE" FontFamily="Cascadia Mono, Consolas" FontSize="9"
+                               Text="â— ONLINE" FontFamily="Cascadia Mono, Consolas" FontSize="9"
                                Foreground="{StaticResource GreenBrush}"
                                VerticalAlignment="Center" Margin="0,0,12,0"/>
                     <TextBlock Grid.Column="4" x:Name="ClockText"
@@ -391,7 +391,7 @@ $xaml = @'
                                Foreground="{StaticResource Fg2Brush}"
                                VerticalAlignment="Center" Margin="0,0,8,0"/>
                     <Button Grid.Column="4" x:Name="CloseBtn"
-                            Content="✕" Width="28" Height="28"
+                            Content="âœ•" Width="28" Height="28"
                             FontSize="11" Cursor="Hand"
                             Background="Transparent" BorderThickness="0"
                             Foreground="{StaticResource Fg2Brush}"
@@ -420,7 +420,7 @@ $xaml = @'
                 </Grid>
             </Border>
 
-            <!-- ═══ MAIN CONTENT ════════════════════════════════════════════ -->
+            <!-- â•â•â• MAIN CONTENT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="190"/>  <!-- Sidebar -->
@@ -444,7 +444,7 @@ $xaml = @'
                                 <Border Grid.Column="1" Height="2" Background="#222" CornerRadius="1" Margin="4,0">
                                     <Border x:Name="CpuBar" HorizontalAlignment="Left" Width="0" Background="{StaticResource AccBrush}" CornerRadius="1"/>
                                 </Border>
-                                <TextBlock x:Name="CpuPct" Grid.Column="2" Text="—" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource AccBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="CpuPct" Grid.Column="2" Text="â€”" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource AccBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             </Grid>
                             <!-- RAM bar -->
                             <Grid Margin="0,0,0,5">
@@ -457,7 +457,7 @@ $xaml = @'
                                 <Border Grid.Column="1" Height="2" Background="#222" CornerRadius="1" Margin="4,0">
                                     <Border x:Name="RamBar" HorizontalAlignment="Left" Width="0" Background="{StaticResource BlueBrush}" CornerRadius="1"/>
                                 </Border>
-                                <TextBlock x:Name="RamPct" Grid.Column="2" Text="—" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource BlueBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="RamPct" Grid.Column="2" Text="â€”" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource BlueBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             </Grid>
                             <!-- DISK bar -->
                             <Grid>
@@ -470,7 +470,7 @@ $xaml = @'
                                 <Border Grid.Column="1" Height="2" Background="#222" CornerRadius="1" Margin="4,0">
                                     <Border x:Name="DskBar" HorizontalAlignment="Left" Width="0" Background="{StaticResource GreenBrush}" CornerRadius="1"/>
                                 </Border>
-                                <TextBlock x:Name="DskPct" Grid.Column="2" Text="—" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource GreenBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="DskPct" Grid.Column="2" Text="â€”" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource GreenBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             </Grid>
                         </StackPanel>
 
@@ -478,14 +478,14 @@ $xaml = @'
                             <TextBlock Text="MENU" FontFamily="Cascadia Mono, Consolas" FontSize="8"
                                        Foreground="{StaticResource Fg2Brush}" Margin="16,8,0,4"
                                        LetterSpacing="2"/>
-                            <RadioButton x:Name="NavInstall" Content="  ⊕  Instalar" Style="{StaticResource NavBtn}" GroupName="nav" IsChecked="True"/>
-                            <RadioButton x:Name="NavTweaks"  Content="  ⚡  Tweaks"   Style="{StaticResource NavBtn}" GroupName="nav"/>
-                            <RadioButton x:Name="NavConfig"  Content="  ◎  Definições" Style="{StaticResource NavBtn}" GroupName="nav"/>
+                            <RadioButton x:Name="NavInstall" Content="  âŠ•  Instalar" Style="{StaticResource NavBtn}" GroupName="nav" IsChecked="True"/>
+                            <RadioButton x:Name="NavTweaks"  Content="  âš¡  Tweaks"   Style="{StaticResource NavBtn}" GroupName="nav"/>
+                            <RadioButton x:Name="NavConfig"  Content="  â—Ž  DefiniÃ§Ãµes" Style="{StaticResource NavBtn}" GroupName="nav"/>
 
                             <TextBlock Text="SISTEMA" FontFamily="Cascadia Mono, Consolas" FontSize="8"
                                        Foreground="{StaticResource Fg2Brush}" Margin="16,14,0,4"
                                        LetterSpacing="2"/>
-                            <RadioButton x:Name="NavInfo"    Content="  ◷  Hardware"  Style="{StaticResource NavBtn}" GroupName="nav"/>
+                            <RadioButton x:Name="NavInfo"    Content="  â—·  Hardware"  Style="{StaticResource NavBtn}" GroupName="nav"/>
                         </StackPanel>
                     </DockPanel>
                 </Border>
@@ -493,7 +493,7 @@ $xaml = @'
                 <!-- PAGES -->
                 <Grid Grid.Column="1">
 
-                    <!-- ── PAGE: INSTALL ── -->
+                    <!-- â”€â”€ PAGE: INSTALL â”€â”€ -->
                     <Grid x:Name="PageInstall" Visibility="Visible">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="48"/>
@@ -516,10 +516,10 @@ $xaml = @'
                                 <TextBlock Grid.Column="1" Text="  // via winget" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource Fg2Brush}" VerticalAlignment="Center"/>
                                 <TextBox   Grid.Column="2" x:Name="SearchBox" Style="{StaticResource GuiportTextBox}"
                                            Height="26" Margin="20,0,12,0" VerticalAlignment="Center"
-                                           ToolTip="Pesquisar aplicações..."/>
-                                <Button Grid.Column="3" x:Name="BtnDeselectAll" Content="✕ Limpar" Style="{StaticResource GuiportBtn}" Margin="0,0,5,0" Height="26"/>
-                                <Button Grid.Column="4" x:Name="BtnSelectAll"   Content="☑ Todos"  Style="{StaticResource GuiportBtn}" Margin="0,0,5,0" Height="26"/>
-                                <Button Grid.Column="5" x:Name="BtnInstall"     Content="▶  Instalar Selecionados" Style="{StaticResource AccentBtn}" Height="28"/>
+                                           ToolTip="Pesquisar aplicaÃ§Ãµes..."/>
+                                <Button Grid.Column="3" x:Name="BtnDeselectAll" Content="âœ• Limpar" Style="{StaticResource GuiportBtn}" Margin="0,0,5,0" Height="26"/>
+                                <Button Grid.Column="4" x:Name="BtnSelectAll"   Content="â˜‘ Todos"  Style="{StaticResource GuiportBtn}" Margin="0,0,5,0" Height="26"/>
+                                <Button Grid.Column="5" x:Name="BtnInstall"     Content="â–¶  Instalar Selecionados" Style="{StaticResource AccentBtn}" Height="28"/>
                             </Grid>
                         </Border>
 
@@ -546,7 +546,7 @@ $xaml = @'
                         </Border>
                     </Grid>
 
-                    <!-- ── PAGE: TWEAKS ── -->
+                    <!-- â”€â”€ PAGE: TWEAKS â”€â”€ -->
                     <Grid x:Name="PageTweaks" Visibility="Collapsed">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="48"/>
@@ -564,8 +564,8 @@ $xaml = @'
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="Windows Tweaks" FontFamily="Segoe UI Bold" FontSize="13" Foreground="{StaticResource FgBrush}" VerticalAlignment="Center"/>
                                 <TextBlock Grid.Column="1" Text="  // performance, privacidade, UI" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource Fg2Brush}" VerticalAlignment="Center"/>
-                                <Button Grid.Column="3" x:Name="BtnUndoTweaks"  Content="↩ Reverter"       Style="{StaticResource DangerBtn}" Height="26" Margin="0,0,6,0"/>
-                                <Button Grid.Column="4" x:Name="BtnApplyTweaks" Content="⚡  Aplicar Tweaks" Style="{StaticResource AccentBtn}" Height="28"/>
+                                <Button Grid.Column="3" x:Name="BtnUndoTweaks"  Content="â†© Reverter"       Style="{StaticResource DangerBtn}" Height="26" Margin="0,0,6,0"/>
+                                <Button Grid.Column="4" x:Name="BtnApplyTweaks" Content="âš¡  Aplicar Tweaks" Style="{StaticResource AccentBtn}" Height="28"/>
                             </Grid>
                         </Border>
 
@@ -574,14 +574,14 @@ $xaml = @'
                         </ScrollViewer>
                     </Grid>
 
-                    <!-- ── PAGE: CONFIG ── -->
+                    <!-- â”€â”€ PAGE: CONFIG â”€â”€ -->
                     <Grid x:Name="PageConfig" Visibility="Collapsed">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="48"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Border Grid.Row="0" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,0,1">
-                            <TextBlock Text="Definições" FontFamily="Segoe UI Bold" FontSize="13" Foreground="{StaticResource FgBrush}" VerticalAlignment="Center" Margin="18,0"/>
+                            <TextBlock Text="DefiniÃ§Ãµes" FontFamily="Segoe UI Bold" FontSize="13" Foreground="{StaticResource FgBrush}" VerticalAlignment="Center" Margin="18,0"/>
                         </Border>
                         <ScrollViewer Grid.Row="1">
                             <StackPanel Margin="18,14" MaxWidth="560">
@@ -622,7 +622,7 @@ $xaml = @'
                         </ScrollViewer>
                     </Grid>
 
-                    <!-- ── PAGE: INFO ── -->
+                    <!-- â”€â”€ PAGE: INFO â”€â”€ -->
                     <Grid x:Name="PageInfo" Visibility="Collapsed">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="48"/>
@@ -635,7 +635,7 @@ $xaml = @'
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="Hardware do Sistema" FontFamily="Segoe UI Bold" FontSize="13" Foreground="{StaticResource FgBrush}" VerticalAlignment="Center"/>
-                                <Button Grid.Column="1" x:Name="BtnRefreshInfo" Content="↻ Atualizar" Style="{StaticResource GuiportBtn}" Height="26"/>
+                                <Button Grid.Column="1" x:Name="BtnRefreshInfo" Content="â†» Atualizar" Style="{StaticResource GuiportBtn}" Height="26"/>
                             </Grid>
                         </Border>
                         <ScrollViewer Grid.Row="1">
@@ -645,8 +645,8 @@ $xaml = @'
                                         BorderBrush="{StaticResource LineBrush}" BorderThickness="1" CornerRadius="6" Padding="12">
                                     <StackPanel>
                                         <TextBlock Text="SISTEMA OPERATIVO" FontFamily="Cascadia Mono, Consolas" FontSize="8" Foreground="{StaticResource Fg2Brush}" Margin="0,0,0,5"/>
-                                        <TextBlock x:Name="InfoOS" Text="—" FontFamily="Segoe UI Bold" FontSize="12" Foreground="{StaticResource FgBrush}" TextWrapping="Wrap"/>
-                                        <TextBlock x:Name="InfoOSSub" Text="—" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource Fg2Brush}" Margin="0,3,0,0"/>
+                                        <TextBlock x:Name="InfoOS" Text="â€”" FontFamily="Segoe UI Bold" FontSize="12" Foreground="{StaticResource FgBrush}" TextWrapping="Wrap"/>
+                                        <TextBlock x:Name="InfoOSSub" Text="â€”" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource Fg2Brush}" Margin="0,3,0,0"/>
                                     </StackPanel>
                                 </Border>
                                 <!-- CPU -->
@@ -654,8 +654,8 @@ $xaml = @'
                                         BorderBrush="{StaticResource LineBrush}" BorderThickness="1" CornerRadius="6" Padding="12">
                                     <StackPanel>
                                         <TextBlock Text="CPU" FontFamily="Cascadia Mono, Consolas" FontSize="8" Foreground="{StaticResource Fg2Brush}" Margin="0,0,0,5"/>
-                                        <TextBlock x:Name="InfoCPU" Text="—" FontFamily="Segoe UI Bold" FontSize="12" Foreground="{StaticResource FgBrush}" TextWrapping="Wrap"/>
-                                        <TextBlock x:Name="InfoCPUSub" Text="—" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource Fg2Brush}" Margin="0,3,0,0"/>
+                                        <TextBlock x:Name="InfoCPU" Text="â€”" FontFamily="Segoe UI Bold" FontSize="12" Foreground="{StaticResource FgBrush}" TextWrapping="Wrap"/>
+                                        <TextBlock x:Name="InfoCPUSub" Text="â€”" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource Fg2Brush}" Margin="0,3,0,0"/>
                                     </StackPanel>
                                 </Border>
                                 <!-- RAM -->
@@ -663,8 +663,8 @@ $xaml = @'
                                         BorderBrush="{StaticResource LineBrush}" BorderThickness="1" CornerRadius="6" Padding="12">
                                     <StackPanel>
                                         <TextBlock Text="MEMORIA RAM" FontFamily="Cascadia Mono, Consolas" FontSize="8" Foreground="{StaticResource Fg2Brush}" Margin="0,0,0,5"/>
-                                        <TextBlock x:Name="InfoRAM" Text="—" FontFamily="Segoe UI Bold" FontSize="12" Foreground="{StaticResource FgBrush}"/>
-                                        <TextBlock x:Name="InfoRAMSub" Text="—" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource Fg2Brush}" Margin="0,3,0,0"/>
+                                        <TextBlock x:Name="InfoRAM" Text="â€”" FontFamily="Segoe UI Bold" FontSize="12" Foreground="{StaticResource FgBrush}"/>
+                                        <TextBlock x:Name="InfoRAMSub" Text="â€”" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource Fg2Brush}" Margin="0,3,0,0"/>
                                     </StackPanel>
                                 </Border>
                                 <!-- GPU -->
@@ -672,8 +672,8 @@ $xaml = @'
                                         BorderBrush="{StaticResource LineBrush}" BorderThickness="1" CornerRadius="6" Padding="12">
                                     <StackPanel>
                                         <TextBlock Text="GPU" FontFamily="Cascadia Mono, Consolas" FontSize="8" Foreground="{StaticResource Fg2Brush}" Margin="0,0,0,5"/>
-                                        <TextBlock x:Name="InfoGPU" Text="—" FontFamily="Segoe UI Bold" FontSize="12" Foreground="{StaticResource FgBrush}" TextWrapping="Wrap"/>
-                                        <TextBlock x:Name="InfoGPUSub" Text="—" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource Fg2Brush}" Margin="0,3,0,0"/>
+                                        <TextBlock x:Name="InfoGPU" Text="â€”" FontFamily="Segoe UI Bold" FontSize="12" Foreground="{StaticResource FgBrush}" TextWrapping="Wrap"/>
+                                        <TextBlock x:Name="InfoGPUSub" Text="â€”" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource Fg2Brush}" Margin="0,3,0,0"/>
                                     </StackPanel>
                                 </Border>
                                 <!-- DISK -->
@@ -681,8 +681,8 @@ $xaml = @'
                                         BorderBrush="{StaticResource LineBrush}" BorderThickness="1" CornerRadius="6" Padding="12">
                                     <StackPanel>
                                         <TextBlock Text="DISCO C:" FontFamily="Cascadia Mono, Consolas" FontSize="8" Foreground="{StaticResource Fg2Brush}" Margin="0,0,0,5"/>
-                                        <TextBlock x:Name="InfoDisk" Text="—" FontFamily="Segoe UI Bold" FontSize="12" Foreground="{StaticResource FgBrush}"/>
-                                        <TextBlock x:Name="InfoDiskSub" Text="—" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource Fg2Brush}" Margin="0,3,0,0"/>
+                                        <TextBlock x:Name="InfoDisk" Text="â€”" FontFamily="Segoe UI Bold" FontSize="12" Foreground="{StaticResource FgBrush}"/>
+                                        <TextBlock x:Name="InfoDiskSub" Text="â€”" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource Fg2Brush}" Margin="0,3,0,0"/>
                                     </StackPanel>
                                 </Border>
                                 <!-- SECURITY -->
@@ -690,8 +690,8 @@ $xaml = @'
                                         BorderBrush="{StaticResource LineBrush}" BorderThickness="1" CornerRadius="6" Padding="12">
                                     <StackPanel>
                                         <TextBlock Text="SEGURANCA" FontFamily="Cascadia Mono, Consolas" FontSize="8" Foreground="{StaticResource Fg2Brush}" Margin="0,0,0,5"/>
-                                        <TextBlock x:Name="InfoDef" Text="—" FontFamily="Segoe UI Bold" FontSize="12" Foreground="{StaticResource FgBrush}"/>
-                                        <TextBlock x:Name="InfoWinget" Text="—" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource Fg2Brush}" Margin="0,3,0,0"/>
+                                        <TextBlock x:Name="InfoDef" Text="â€”" FontFamily="Segoe UI Bold" FontSize="12" Foreground="{StaticResource FgBrush}"/>
+                                        <TextBlock x:Name="InfoWinget" Text="â€”" FontFamily="Cascadia Mono, Consolas" FontSize="9" Foreground="{StaticResource Fg2Brush}" Margin="0,3,0,0"/>
                                     </StackPanel>
                                 </Border>
                             </UniformGrid>
@@ -701,7 +701,7 @@ $xaml = @'
                 </Grid>
             </Grid>
 
-            <!-- ═══ CONSOLE ════════════════════════════════════════════════ -->
+            <!-- â•â•â• CONSOLE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
             <Border Grid.Row="2" Background="{StaticResource BgBrush}"
                     BorderBrush="{StaticResource LineBrush}" BorderThickness="0,1,0,0"
                     CornerRadius="0,0,12,12">
@@ -773,7 +773,7 @@ $xaml = @'
 </Window>
 '@
 
-# ─── Parse XAML ───────────────────────────────────────────────────────────────
+# â”€â”€â”€ Parse XAML â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $xaml = $xaml -replace 'mc:Ignorable="d"', '' -replace "x:N", 'N' -replace '^<Win.*', '<Window'
 [xml]$xml = $xaml
 $reader   = New-Object System.Xml.XmlNodeReader $xml
@@ -784,142 +784,142 @@ try {
     exit 1
 }
 
-# ─── Bind todos os controlos ──────────────────────────────────────────────────
+# â”€â”€â”€ Bind todos os controlos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $xml.SelectNodes("//*[@Name]") | ForEach-Object {
     $sync[$_.Name] = $sync.Form.FindName($_.Name)
 }
 
-# ─── Dados: Apps ──────────────────────────────────────────────────────────────
+# â”€â”€â”€ Dados: Apps â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $Apps = @(
     # Browsers
-    @{ Cat="🌐 Browsers";      Name="Google Chrome";      Pkg="Google.Chrome";                    Desc="Browser mais usado. Motor V8, sync Google, vasto ecossistema." }
-    @{ Cat="🌐 Browsers";      Name="Mozilla Firefox";     Pkg="Mozilla.Firefox";                  Desc="Open-source, focado em privacidade. Melhores DevTools da categoria." }
-    @{ Cat="🌐 Browsers";      Name="Brave";               Pkg="Brave.Brave";                      Desc="Chromium com bloqueio nativo de anúncios e fingerprint protection." }
-    @{ Cat="🌐 Browsers";      Name="Zen Browser";         Pkg="Zen-Team.Zen-Browser";             Desc="Firefox com UI minimalista, abas verticais e foco em produtividade." }
-    @{ Cat="🌐 Browsers";      Name="Vivaldi";             Pkg="Vivaldi.Vivaldi";                  Desc="Chromium configurável com tab stacking e cliente de mail integrado." }
-    # Comunicação
-    @{ Cat="💬 Comunicação";   Name="Discord";             Pkg="Discord.Discord";                  Desc="Plataforma de voz, vídeo e texto para comunidades e gaming." }
-    @{ Cat="💬 Comunicação";   Name="Slack";               Pkg="SlackTechnologies.Slack";          Desc="Mensagens para equipas com canais, threads e integrações." }
-    @{ Cat="💬 Comunicação";   Name="Telegram";            Pkg="Telegram.TelegramDesktop";         Desc="Mensagens encriptadas com sync na cloud e grupos grandes." }
-    @{ Cat="💬 Comunicação";   Name="WhatsApp";            Pkg="WhatsApp.WhatsApp";                Desc="Cliente desktop com encriptação end-to-end. Espelha o telemóvel." }
+    @{ Cat="ðŸŒ Browsers";      Name="Google Chrome";      Pkg="Google.Chrome";                    Desc="Browser mais usado. Motor V8, sync Google, vasto ecossistema." }
+    @{ Cat="ðŸŒ Browsers";      Name="Mozilla Firefox";     Pkg="Mozilla.Firefox";                  Desc="Open-source, focado em privacidade. Melhores DevTools da categoria." }
+    @{ Cat="ðŸŒ Browsers";      Name="Brave";               Pkg="Brave.Brave";                      Desc="Chromium com bloqueio nativo de anÃºncios e fingerprint protection." }
+    @{ Cat="ðŸŒ Browsers";      Name="Zen Browser";         Pkg="Zen-Team.Zen-Browser";             Desc="Firefox com UI minimalista, abas verticais e foco em produtividade." }
+    @{ Cat="ðŸŒ Browsers";      Name="Vivaldi";             Pkg="Vivaldi.Vivaldi";                  Desc="Chromium configurÃ¡vel com tab stacking e cliente de mail integrado." }
+    # ComunicaÃ§Ã£o
+    @{ Cat="ðŸ’¬ ComunicaÃ§Ã£o";   Name="Discord";             Pkg="Discord.Discord";                  Desc="Plataforma de voz, vÃ­deo e texto para comunidades e gaming." }
+    @{ Cat="ðŸ’¬ ComunicaÃ§Ã£o";   Name="Slack";               Pkg="SlackTechnologies.Slack";          Desc="Mensagens para equipas com canais, threads e integraÃ§Ãµes." }
+    @{ Cat="ðŸ’¬ ComunicaÃ§Ã£o";   Name="Telegram";            Pkg="Telegram.TelegramDesktop";         Desc="Mensagens encriptadas com sync na cloud e grupos grandes." }
+    @{ Cat="ðŸ’¬ ComunicaÃ§Ã£o";   Name="WhatsApp";            Pkg="WhatsApp.WhatsApp";                Desc="Cliente desktop com encriptaÃ§Ã£o end-to-end. Espelha o telemÃ³vel." }
     # Gaming
-    @{ Cat="🎮 Gaming";        Name="Steam";               Pkg="Valve.Steam";                      Desc="A maior loja de jogos PC. Cloud saves, workshop, remote play." }
-    @{ Cat="🎮 Gaming";        Name="Epic Games Launcher"; Pkg="EpicGames.EpicGamesLauncher";      Desc="Launcher Epic com jogos gratuitos regulares." }
-    @{ Cat="🎮 Gaming";        Name="Ubisoft Connect";     Pkg="Ubisoft.Connect";                  Desc="Hub Ubisoft para gerir biblioteca e conquistas." }
-    @{ Cat="🎮 Gaming";        Name="EA App";              Pkg="ElectronicArts.EADesktop";         Desc="App EA para FIFA, The Sims, Battlefield e outros." }
-    @{ Cat="🎮 Gaming";        Name="GeForce Experience";  Pkg="Nvidia.GeForceExperience";         Desc="NVIDIA: drivers, otimização de jogos, ShadowPlay, Ansel." }
-    @{ Cat="🎮 Gaming";        Name="Playnite";            Pkg="Playnite.Playnite";                Desc="Gestor open-source de jogos. Unifica Steam, Epic, GOG, Xbox." }
-    # Utilitários
-    @{ Cat="🔧 Utilitários";   Name="7-Zip";               Pkg="7zip.7zip";                        Desc="Compressor open-source. 7z, ZIP, RAR. Melhor taxa de compressão." }
-    @{ Cat="🔧 Utilitários";   Name="Notepad++";           Pkg="Notepad++.Notepad++";              Desc="Editor leve com syntax highlighting para 80+ linguagens." }
-    @{ Cat="🔧 Utilitários";   Name="VLC";                 Pkg="VLC.VLC";                          Desc="Player multimédia. Reproduz qualquer formato sem codecs extras." }
-    @{ Cat="🔧 Utilitários";   Name="ShareX";              Pkg="ShareX.ShareX";                    Desc="Captura de ecrã e gravação gratuita com editor e upload cloud." }
-    @{ Cat="🔧 Utilitários";   Name="Bitwarden";           Pkg="Bitwarden.Bitwarden";              Desc="Gestor de passwords open-source com encriptação end-to-end." }
-    @{ Cat="🔧 Utilitários";   Name="Rufus";               Pkg="Rufus.Rufus";                      Desc="Cria drives USB bootáveis a partir de ISOs. Suporte UEFI." }
-    @{ Cat="🔧 Utilitários";   Name="CrystalDiskInfo";     Pkg="CrystalDewWorld.CrystalDiskInfo";  Desc="Monitoriza SMART de HDD/SSD: saúde, temperatura, avisos." }
-    @{ Cat="🔧 Utilitários";   Name="EarTrumpet";          Pkg="File-New-Project.EarTrumpet";      Desc="Mixer de volume avançado por aplicação na system tray." }
+    @{ Cat="ðŸŽ® Gaming";        Name="Steam";               Pkg="Valve.Steam";                      Desc="A maior loja de jogos PC. Cloud saves, workshop, remote play." }
+    @{ Cat="ðŸŽ® Gaming";        Name="Epic Games Launcher"; Pkg="EpicGames.EpicGamesLauncher";      Desc="Launcher Epic com jogos gratuitos regulares." }
+    @{ Cat="ðŸŽ® Gaming";        Name="Ubisoft Connect";     Pkg="Ubisoft.Connect";                  Desc="Hub Ubisoft para gerir biblioteca e conquistas." }
+    @{ Cat="ðŸŽ® Gaming";        Name="EA App";              Pkg="ElectronicArts.EADesktop";         Desc="App EA para FIFA, The Sims, Battlefield e outros." }
+    @{ Cat="ðŸŽ® Gaming";        Name="GeForce Experience";  Pkg="Nvidia.GeForceExperience";         Desc="NVIDIA: drivers, otimizaÃ§Ã£o de jogos, ShadowPlay, Ansel." }
+    @{ Cat="ðŸŽ® Gaming";        Name="Playnite";            Pkg="Playnite.Playnite";                Desc="Gestor open-source de jogos. Unifica Steam, Epic, GOG, Xbox." }
+    # UtilitÃ¡rios
+    @{ Cat="ðŸ”§ UtilitÃ¡rios";   Name="7-Zip";               Pkg="7zip.7zip";                        Desc="Compressor open-source. 7z, ZIP, RAR. Melhor taxa de compressÃ£o." }
+    @{ Cat="ðŸ”§ UtilitÃ¡rios";   Name="Notepad++";           Pkg="Notepad++.Notepad++";              Desc="Editor leve com syntax highlighting para 80+ linguagens." }
+    @{ Cat="ðŸ”§ UtilitÃ¡rios";   Name="VLC";                 Pkg="VLC.VLC";                          Desc="Player multimÃ©dia. Reproduz qualquer formato sem codecs extras." }
+    @{ Cat="ðŸ”§ UtilitÃ¡rios";   Name="ShareX";              Pkg="ShareX.ShareX";                    Desc="Captura de ecrÃ£ e gravaÃ§Ã£o gratuita com editor e upload cloud." }
+    @{ Cat="ðŸ”§ UtilitÃ¡rios";   Name="Bitwarden";           Pkg="Bitwarden.Bitwarden";              Desc="Gestor de passwords open-source com encriptaÃ§Ã£o end-to-end." }
+    @{ Cat="ðŸ”§ UtilitÃ¡rios";   Name="Rufus";               Pkg="Rufus.Rufus";                      Desc="Cria drives USB bootÃ¡veis a partir de ISOs. Suporte UEFI." }
+    @{ Cat="ðŸ”§ UtilitÃ¡rios";   Name="CrystalDiskInfo";     Pkg="CrystalDewWorld.CrystalDiskInfo";  Desc="Monitoriza SMART de HDD/SSD: saÃºde, temperatura, avisos." }
+    @{ Cat="ðŸ”§ UtilitÃ¡rios";   Name="EarTrumpet";          Pkg="File-New-Project.EarTrumpet";      Desc="Mixer de volume avanÃ§ado por aplicaÃ§Ã£o na system tray." }
     # Desenvolvimento
-    @{ Cat="💻 Desenvolvimento"; Name="VS Code";           Pkg="Microsoft.VisualStudioCode";       Desc="Editor Microsoft com IntelliSense, debug, Git e extensões." }
-    @{ Cat="💻 Desenvolvimento"; Name="Git";               Pkg="Git.Git";                          Desc="Controlo de versões distribuído. Essencial para qualquer dev." }
-    @{ Cat="💻 Desenvolvimento"; Name="Node.js LTS";       Pkg="OpenJS.NodeJS.LTS";                Desc="Runtime JavaScript V8. Necessário para npm e frameworks JS." }
-    @{ Cat="💻 Desenvolvimento"; Name="Python 3";          Pkg="Python.Python.3";                  Desc="Linguagem para scripting, data science, IA/ML e backends." }
-    @{ Cat="💻 Desenvolvimento"; Name="Windows Terminal";  Pkg="Microsoft.WindowsTerminal";        Desc="Terminal moderno com multi-tab, split panes e GPU rendering." }
-    @{ Cat="💻 Desenvolvimento"; Name="Docker Desktop";    Pkg="Docker.DockerDesktop";             Desc="Containerização para build, ship e run de apps isoladas." }
-    @{ Cat="💻 Desenvolvimento"; Name="Postman";           Pkg="Postman.Postman";                  Desc="Desenvolvimento e teste de APIs REST e GraphQL." }
+    @{ Cat="ðŸ’» Desenvolvimento"; Name="VS Code";           Pkg="Microsoft.VisualStudioCode";       Desc="Editor Microsoft com IntelliSense, debug, Git e extensÃµes." }
+    @{ Cat="ðŸ’» Desenvolvimento"; Name="Git";               Pkg="Git.Git";                          Desc="Controlo de versÃµes distribuÃ­do. Essencial para qualquer dev." }
+    @{ Cat="ðŸ’» Desenvolvimento"; Name="Node.js LTS";       Pkg="OpenJS.NodeJS.LTS";                Desc="Runtime JavaScript V8. NecessÃ¡rio para npm e frameworks JS." }
+    @{ Cat="ðŸ’» Desenvolvimento"; Name="Python 3";          Pkg="Python.Python.3";                  Desc="Linguagem para scripting, data science, IA/ML e backends." }
+    @{ Cat="ðŸ’» Desenvolvimento"; Name="Windows Terminal";  Pkg="Microsoft.WindowsTerminal";        Desc="Terminal moderno com multi-tab, split panes e GPU rendering." }
+    @{ Cat="ðŸ’» Desenvolvimento"; Name="Docker Desktop";    Pkg="Docker.DockerDesktop";             Desc="ContainerizaÃ§Ã£o para build, ship e run de apps isoladas." }
+    @{ Cat="ðŸ’» Desenvolvimento"; Name="Postman";           Pkg="Postman.Postman";                  Desc="Desenvolvimento e teste de APIs REST e GraphQL." }
     # Media
-    @{ Cat="🎨 Media & Criativo"; Name="OBS Studio";       Pkg="OBSProject.OBSStudio";             Desc="Streaming e gravação open-source. Múltiplas cenas e fontes." }
-    @{ Cat="🎨 Media & Criativo"; Name="Spotify";          Pkg="Spotify.Spotify";                  Desc="Streaming de música e podcasts com 100M+ faixas." }
-    @{ Cat="🎨 Media & Criativo"; Name="Figma";            Pkg="Figma.Figma";                      Desc="Design UI/UX colaborativo. Vetorial, prototipagem, componentes." }
-    @{ Cat="🎨 Media & Criativo"; Name="HandBrake";        Pkg="HandBrake.HandBrake";              Desc="Transcodificador de vídeo H.264/H.265/AV1 GPU-acelerado." }
-    @{ Cat="🎨 Media & Criativo"; Name="GIMP";             Pkg="GIMP.GIMP";                        Desc="Editor de imagem open-source. Alternativa gratuita ao Photoshop." }
+    @{ Cat="ðŸŽ¨ Media & Criativo"; Name="OBS Studio";       Pkg="OBSProject.OBSStudio";             Desc="Streaming e gravaÃ§Ã£o open-source. MÃºltiplas cenas e fontes." }
+    @{ Cat="ðŸŽ¨ Media & Criativo"; Name="Spotify";          Pkg="Spotify.Spotify";                  Desc="Streaming de mÃºsica e podcasts com 100M+ faixas." }
+    @{ Cat="ðŸŽ¨ Media & Criativo"; Name="Figma";            Pkg="Figma.Figma";                      Desc="Design UI/UX colaborativo. Vetorial, prototipagem, componentes." }
+    @{ Cat="ðŸŽ¨ Media & Criativo"; Name="HandBrake";        Pkg="HandBrake.HandBrake";              Desc="Transcodificador de vÃ­deo H.264/H.265/AV1 GPU-acelerado." }
+    @{ Cat="ðŸŽ¨ Media & Criativo"; Name="GIMP";             Pkg="GIMP.GIMP";                        Desc="Editor de imagem open-source. Alternativa gratuita ao Photoshop." }
 )
 
-# ─── Dados: Tweaks ────────────────────────────────────────────────────────────
+# â”€â”€â”€ Dados: Tweaks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $Tweaks = @(
     # Performance
-    @{ Cat="⚡ Performance"; Name="High Performance Power Plan"; Desc="Maximiza frequência CPU/GPU — desativa poupança de energia"
+    @{ Cat="âš¡ Performance"; Name="High Performance Power Plan"; Desc="Maximiza frequÃªncia CPU/GPU â€” desativa poupanÃ§a de energia"
        Registry=@(@{Path="HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\bc5038f7-23e0-4960-96da-33abaf5935ec";Name="Attributes";Value=0;Type="DWord"})
        Script={ powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c }
        Undo={ powercfg -setactive 381b4222-f694-41f0-9685-ff5bb260df2e } }
-    @{ Cat="⚡ Performance"; Name="Desativar Xbox Game Bar & DVR"; Desc="Remove overhead de CPU/RAM da gravação em segundo plano"
+    @{ Cat="âš¡ Performance"; Name="Desativar Xbox Game Bar & DVR"; Desc="Remove overhead de CPU/RAM da gravaÃ§Ã£o em segundo plano"
        Registry=@(@{Path="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR";Name="AppCaptureEnabled";Value=0;Type="DWord"},
                   @{Path="HKCU:\System\GameConfigStore";Name="GameDVR_Enabled";Value=0;Type="DWord"})
        Script=$null; Undo=$null }
-    @{ Cat="⚡ Performance"; Name="Desativar SysMain (Superfetch)"; Desc="Elimina picos desnecessários de disco em sistemas SSD"
+    @{ Cat="âš¡ Performance"; Name="Desativar SysMain (Superfetch)"; Desc="Elimina picos desnecessÃ¡rios de disco em sistemas SSD"
        Registry=$null
        Script={ Stop-Service -Name SysMain -Force -EA SilentlyContinue; Set-Service -Name SysMain -StartupType Disabled }
        Undo={ Set-Service -Name SysMain -StartupType Automatic; Start-Service -Name SysMain -EA SilentlyContinue } }
-    @{ Cat="⚡ Performance"; Name="Desativar Hibernação"; Desc="Liberta espaço em disco igual à RAM instalada"
+    @{ Cat="âš¡ Performance"; Name="Desativar HibernaÃ§Ã£o"; Desc="Liberta espaÃ§o em disco igual Ã  RAM instalada"
        Registry=$null; Script={ powercfg -h off }; Undo={ powercfg -h on } }
-    @{ Cat="⚡ Performance"; Name="Ativar Game Mode"; Desc="Prioridade CPU/GPU para jogos — reduz stuttering"
+    @{ Cat="âš¡ Performance"; Name="Ativar Game Mode"; Desc="Prioridade CPU/GPU para jogos â€” reduz stuttering"
        Registry=@(@{Path="HKCU:\Software\Microsoft\GameBar";Name="AllowAutoGameMode";Value=1;Type="DWord"},
                   @{Path="HKCU:\Software\Microsoft\GameBar";Name="AutoGameModeEnabled";Value=1;Type="DWord"})
        Script=$null; Undo=$null }
-    @{ Cat="⚡ Performance"; Name="Desativar Search Indexing"; Desc="Para indexação em segundo plano — reduz I/O em SSDs"
+    @{ Cat="âš¡ Performance"; Name="Desativar Search Indexing"; Desc="Para indexaÃ§Ã£o em segundo plano â€” reduz I/O em SSDs"
        Registry=$null
        Script={ Stop-Service -Name WSearch -Force -EA SilentlyContinue; Set-Service -Name WSearch -StartupType Disabled }
        Undo={ Set-Service -Name WSearch -StartupType Automatic; Start-Service -Name WSearch -EA SilentlyContinue } }
     # Privacidade
-    @{ Cat="🔒 Privacidade"; Name="Desativar Telemetria"; Desc="Bloqueia recolha e envio de dados de diagnóstico"
+    @{ Cat="ðŸ”’ Privacidade"; Name="Desativar Telemetria"; Desc="Bloqueia recolha e envio de dados de diagnÃ³stico"
        Registry=@(@{Path="HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection";Name="AllowTelemetry";Value=0;Type="DWord"})
        Script={ Stop-Service DiagTrack -Force -EA SilentlyContinue; Set-Service DiagTrack -StartupType Disabled }
        Undo={ Set-Service DiagTrack -StartupType Automatic } }
-    @{ Cat="🔒 Privacidade"; Name="Desativar Advertising ID"; Desc="Remove identificador de rastreamento de anúncios"
+    @{ Cat="ðŸ”’ Privacidade"; Name="Desativar Advertising ID"; Desc="Remove identificador de rastreamento de anÃºncios"
        Registry=@(@{Path="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo";Name="Enabled";Value=0;Type="DWord"})
        Script=$null; Undo=$null }
-    @{ Cat="🔒 Privacidade"; Name="Desativar Cortana"; Desc="Para pesquisas de serem enviadas para a cloud Microsoft"
+    @{ Cat="ðŸ”’ Privacidade"; Name="Desativar Cortana"; Desc="Para pesquisas de serem enviadas para a cloud Microsoft"
        Registry=@(@{Path="HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search";Name="AllowCortana";Value=0;Type="DWord"},
                   @{Path="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search";Name="BingSearchEnabled";Value=0;Type="DWord"})
        Script=$null; Undo=$null }
-    @{ Cat="🔒 Privacidade"; Name="Desativar Activity History"; Desc="Desativa registo de apps/ficheiros abertos e upload cloud"
+    @{ Cat="ðŸ”’ Privacidade"; Name="Desativar Activity History"; Desc="Desativa registo de apps/ficheiros abertos e upload cloud"
        Registry=@(@{Path="HKLM:\SOFTWARE\Policies\Microsoft\Windows\System";Name="EnableActivityFeed";Value=0;Type="DWord"},
                   @{Path="HKLM:\SOFTWARE\Policies\Microsoft\Windows\System";Name="PublishUserActivities";Value=0;Type="DWord"},
                   @{Path="HKLM:\SOFTWARE\Policies\Microsoft\Windows\System";Name="UploadUserActivities";Value=0;Type="DWord"})
        Script=$null; Undo=$null }
-    @{ Cat="🔒 Privacidade"; Name="Desativar Location Tracking"; Desc="Bloqueia todas as apps de acederem à tua localização"
+    @{ Cat="ðŸ”’ Privacidade"; Name="Desativar Location Tracking"; Desc="Bloqueia todas as apps de acederem Ã  tua localizaÃ§Ã£o"
        Registry=@(@{Path="HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors";Name="DisableLocation";Value=1;Type="DWord"})
        Script=$null; Undo=$null }
     # Interface
-    @{ Cat="🖥️ Interface"; Name="Context Menu Clássico (Win10)"; Desc="Restaura menu Win10 — remove 'Mostrar mais opções'"
+    @{ Cat="ðŸ–¥ï¸ Interface"; Name="Context Menu ClÃ¡ssico (Win10)"; Desc="Restaura menu Win10 â€” remove 'Mostrar mais opÃ§Ãµes'"
        Registry=$null
        Script={ reg add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve 2>&1 | Out-Null; Stop-Process -Name explorer -Force; Start-Process explorer }
        Undo={ reg delete "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" /f 2>&1 | Out-Null; Stop-Process -Name explorer -Force; Start-Process explorer } }
-    @{ Cat="🖥️ Interface"; Name="Mostrar Extensões de Ficheiros"; Desc="Mostra .exe .docx .jpg — ocultos por defeito"
+    @{ Cat="ðŸ–¥ï¸ Interface"; Name="Mostrar ExtensÃµes de Ficheiros"; Desc="Mostra .exe .docx .jpg â€” ocultos por defeito"
        Registry=@(@{Path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";Name="HideFileExt";Value=0;Type="DWord"})
        Script={ Stop-Process -Name explorer -Force; Start-Process explorer }; Undo=$null }
-    @{ Cat="🖥️ Interface"; Name="Mostrar Ficheiros Ocultos"; Desc="Revela ficheiros de sistema e pastas AppData"
+    @{ Cat="ðŸ–¥ï¸ Interface"; Name="Mostrar Ficheiros Ocultos"; Desc="Revela ficheiros de sistema e pastas AppData"
        Registry=@(@{Path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";Name="Hidden";Value=1;Type="DWord"},
                   @{Path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";Name="ShowSuperHidden";Value=1;Type="DWord"})
        Script={ Stop-Process -Name explorer -Force; Start-Process explorer }; Undo=$null }
-    @{ Cat="🖥️ Interface"; Name="Ativar Dark Mode Global"; Desc="Aplica tema escuro ao Explorer, Definições e apps"
+    @{ Cat="ðŸ–¥ï¸ Interface"; Name="Ativar Dark Mode Global"; Desc="Aplica tema escuro ao Explorer, DefiniÃ§Ãµes e apps"
        Registry=@(@{Path="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize";Name="AppsUseLightTheme";Value=0;Type="DWord"},
                   @{Path="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize";Name="SystemUsesLightTheme";Value=0;Type="DWord"})
        Script=$null; Undo=$null }
-    # Segurança
-    @{ Cat="🛡️ Segurança"; Name="Forçar Defender Real-Time"; Desc="Garante scanning contínuo e proteção cloud ativos"
+    # SeguranÃ§a
+    @{ Cat="ðŸ›¡ï¸ SeguranÃ§a"; Name="ForÃ§ar Defender Real-Time"; Desc="Garante scanning contÃ­nuo e proteÃ§Ã£o cloud ativos"
        Registry=$null
        Script={ Set-MpPreference -DisableRealtimeMonitoring $false; Set-MpPreference -CloudBlockLevel 2 }; Undo=$null }
-    @{ Cat="🛡️ Segurança"; Name="UAC — Nível Máximo"; Desc="Bloqueia elevação silenciosa de privilégios por malware"
+    @{ Cat="ðŸ›¡ï¸ SeguranÃ§a"; Name="UAC â€” NÃ­vel MÃ¡ximo"; Desc="Bloqueia elevaÃ§Ã£o silenciosa de privilÃ©gios por malware"
        Registry=@(@{Path="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System";Name="ConsentPromptBehaviorAdmin";Value=2;Type="DWord"},
                   @{Path="HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System";Name="PromptOnSecureDesktop";Value=1;Type="DWord"})
        Script=$null; Undo=$null }
-    @{ Cat="🛡️ Segurança"; Name="Ativar Controlled Folder Access"; Desc="Proteção anti-ransomware para Documentos e Desktop"
+    @{ Cat="ðŸ›¡ï¸ SeguranÃ§a"; Name="Ativar Controlled Folder Access"; Desc="ProteÃ§Ã£o anti-ransomware para Documentos e Desktop"
        Registry=$null
        Script={ Set-MpPreference -EnableControlledFolderAccess Enabled }; Undo=$null }
     # Rede
-    @{ Cat="🌐 Rede"; Name="Desativar Network Throttling"; Desc="Remove limite de 10% de largura de banda reservada"
+    @{ Cat="ðŸŒ Rede"; Name="Desativar Network Throttling"; Desc="Remove limite de 10% de largura de banda reservada"
        Registry=@(@{Path="HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile";Name="NetworkThrottlingIndex";Value=0xffffffff;Type="DWord"})
        Script=$null; Undo=$null }
-    @{ Cat="🌐 Rede"; Name="Desativar Delivery Optimization"; Desc="Para envio de atualizações Windows para outros PCs"
+    @{ Cat="ðŸŒ Rede"; Name="Desativar Delivery Optimization"; Desc="Para envio de atualizaÃ§Ãµes Windows para outros PCs"
        Registry=@(@{Path="HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization";Name="DODownloadMode";Value=0;Type="DWord"})
        Script=$null; Undo=$null }
-    @{ Cat="🌐 Rede"; Name="DNS Cloudflare 1.1.1.1"; Desc="DNS mais rápido e privado — substitui o padrão do operador"
+    @{ Cat="ðŸŒ Rede"; Name="DNS Cloudflare 1.1.1.1"; Desc="DNS mais rÃ¡pido e privado â€” substitui o padrÃ£o do operador"
        Registry=$null
        Script={ $a=Get-NetAdapter|Where-Object{$_.Status -eq 'Up'}|Select-Object -First 1; Set-DnsClientServerAddress -InterfaceIndex $a.ifIndex -ServerAddresses '1.1.1.1','1.0.0.1' }
        Undo={ $a=Get-NetAdapter|Where-Object{$_.Status -eq 'Up'}|Select-Object -First 1; Set-DnsClientServerAddress -InterfaceIndex $a.ifIndex -ResetServerAddresses } }
 )
 
-# ─── Constroi UI: Apps ────────────────────────────────────────────────────────
+# â”€â”€â”€ Constroi UI: Apps â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $selectedApps  = [System.Collections.Generic.List[string]]::new()
 $allAppChecks  = [System.Collections.Generic.List[System.Windows.Controls.CheckBox]]::new()
 
@@ -970,11 +970,11 @@ $Apps | Group-Object Cat | ForEach-Object {
     }
 }
 
-# ─── Constroi UI: Tweaks ──────────────────────────────────────────────────────
+# â”€â”€â”€ Constroi UI: Tweaks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $selectedTweaks = [System.Collections.Generic.List[object]]::new()
 
 $Tweaks | Group-Object Cat | ForEach-Object {
-    # Cabeçalho de categoria
+    # CabeÃ§alho de categoria
     $hdr = New-Object System.Windows.Controls.Border
     $hdr.Background = (New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(26,26,26)))
     $hdr.CornerRadius = [System.Windows.CornerRadius]8
@@ -1034,7 +1034,7 @@ $Tweaks | Group-Object Cat | ForEach-Object {
     }
 }
 
-# ─── Log helper ───────────────────────────────────────────────────────────────
+# â”€â”€â”€ Log helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $logLines = 0
 function Write-GuiportLog {
     param([string]$Type, [string]$Message)
@@ -1070,7 +1070,7 @@ function Set-ConStatus {
     })
 }
 
-# ─── Runspace pool ─────────────────────────────────────────────────────────────
+# â”€â”€â”€ Runspace pool â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $maxthreads = [int]$env:NUMBER_OF_PROCESSORS
 $iss = [System.Management.Automation.Runspaces.InitialSessionState]::CreateDefault()
 $hashVar = New-Object System.Management.Automation.Runspaces.SessionStateVariableEntry -ArgumentList 'sync',$sync,$null
@@ -1085,7 +1085,7 @@ function Invoke-GuiportRunspace([ScriptBlock]$Script) {
     return $ps.BeginInvoke()
 }
 
-# ─── Instalar packages ────────────────────────────────────────────────────────
+# â”€â”€â”€ Instalar packages â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Invoke-GuiportInstall {
     if ($selectedApps.Count -eq 0) {
         Write-GuiportLog "warn" "Nenhum package selecionado."
@@ -1127,7 +1127,7 @@ function Invoke-GuiportInstall {
     } | Out-Null
 }
 
-# ─── Aplicar tweaks ───────────────────────────────────────────────────────────
+# â”€â”€â”€ Aplicar tweaks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Invoke-GuiportTweaks {
     $checked = $sync.TweakPanel.Children | Where-Object {
         $_ -is [System.Windows.Controls.Border]
@@ -1177,7 +1177,7 @@ function Invoke-GuiportTweaks {
     } | Out-Null
 }
 
-# ─── Reverter tweaks ──────────────────────────────────────────────────────────
+# â”€â”€â”€ Reverter tweaks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Invoke-GuiportUndoTweaks {
     $sync.TweakPanel.Children | Where-Object { $_ -is [System.Windows.Controls.Border] } | ForEach-Object {
         $grid = $_.Child
@@ -1190,7 +1190,7 @@ function Invoke-GuiportUndoTweaks {
     Write-GuiportLog "ok" "Tweaks desmarcados na UI."
 }
 
-# ─── Acao rapida ─────────────────────────────────────────────────────────────
+# â”€â”€â”€ Acao rapida â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Invoke-QuickAction([string]$Type) {
     if ($sync.ProcessRunning) { Write-GuiportLog "warn" "Processo ja em execucao."; return }
     $sync.ProcessRunning = $true
@@ -1218,7 +1218,7 @@ function Invoke-QuickAction([string]$Type) {
     } | Out-Null
 }
 
-# ─── Scan completo ────────────────────────────────────────────────────────────
+# â”€â”€â”€ Scan completo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Invoke-GuiportScan {
     if ($sync.ProcessRunning) { Write-GuiportLog "warn" "Processo ja em execucao."; return }
     $sync.ProcessRunning = $true
@@ -1248,16 +1248,16 @@ function Invoke-GuiportScan {
 
             $sync.Form.Dispatcher.Invoke([action]{
                 Write-GuiportLog "ok"  "OS:      $osStr"
-                Write-GuiportLog "ok"  "CPU:     $cpuStr — $cores cores / $thr threads"
+                Write-GuiportLog "ok"  "CPU:     $cpuStr â€” $cores cores / $thr threads"
                 Write-GuiportLog "ok"  "RAM:     $ram GB"
                 Write-GuiportLog "ok"  "GPU:     $gpuStr"
-                Write-GuiportLog "ok"  "Disco C: $used GB usado — $free GB livres"
+                Write-GuiportLog "ok"  "Disco C: $used GB usado â€” $free GB livres"
                 if($winget){Write-GuiportLog "ok" "Winget:  $wgStr"}else{Write-GuiportLog "warn" "Winget:  $wgStr"}
                 if($def){Write-GuiportLog "ok" "Sec:     $defStr"}else{Write-GuiportLog "warn" "Sec:     $defStr"}
 
                 # Atualiza info page
                 $sync.InfoOS.Text      = $osStr
-                $sync.InfoOSSub.Text   = "Build $($os.BuildNumber) — $($os.OSArchitecture)"
+                $sync.InfoOSSub.Text   = "Build $($os.BuildNumber) â€” $($os.OSArchitecture)"
                 $sync.InfoCPU.Text     = $cpuStr
                 $sync.InfoCPUSub.Text  = "$cores Cores / $thr Threads @ $([math]::Round($cpu.MaxClockSpeed/1000,1)) GHz"
                 $sync.InfoRAM.Text     = "$ram GB"
@@ -1266,9 +1266,9 @@ function Invoke-GuiportScan {
                 $sync.InfoGPUSub.Text  = "Driver $($gpu.DriverVersion)"
                 $sync.InfoDisk.Text    = "$used GB usado"
                 $sync.InfoDiskSub.Text = "$free GB livres em C:\"
-                $sync.InfoDef.Text     = if($def){"✓ Defender Ativo"}else{"✗ Defender Inativo"}
+                $sync.InfoDef.Text     = if($def){"âœ“ Defender Ativo"}else{"âœ— Defender Inativo"}
                 $sync.InfoDef.Foreground = if($def){New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(71,255,138))}else{New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(255,85,85))}
-                $sync.InfoWinget.Text  = if($winget){"✓ Winget disponivel"}else{"✗ Winget nao encontrado"}
+                $sync.InfoWinget.Text  = if($winget){"âœ“ Winget disponivel"}else{"âœ— Winget nao encontrado"}
 
                 Write-GuiportLog "ok" "Scan concluido!"
                 Set-ConStatus "Pronto" "#47FF8A"
@@ -1285,7 +1285,7 @@ function Invoke-GuiportScan {
     } | Out-Null
 }
 
-# ─── Pesquisa de apps ─────────────────────────────────────────────────────────
+# â”€â”€â”€ Pesquisa de apps â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Search-Apps([string]$Query) {
     $q = $Query.ToLower().Trim()
     foreach ($cb in $allAppChecks) {
@@ -1296,7 +1296,7 @@ function Search-Apps([string]$Query) {
     }
 }
 
-# ─── Relógio ──────────────────────────────────────────────────────────────────
+# â”€â”€â”€ RelÃ³gio â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $timer = New-Object System.Windows.Threading.DispatcherTimer
 $timer.Interval = [TimeSpan]::FromSeconds(1)
 $timer.Add_Tick({
@@ -1304,7 +1304,7 @@ $timer.Add_Tick({
 })
 $timer.Start()
 
-# ─── Eventos de botões ────────────────────────────────────────────────────────
+# â”€â”€â”€ Eventos de botÃµes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $sync.CloseBtn.Add_Click({ $sync.Form.Close() })
 
 $sync.Form.Add_MouseLeftButtonDown({
@@ -1313,7 +1313,7 @@ $sync.Form.Add_MouseLeftButtonDown({
     }
 })
 
-# Navegação
+# NavegaÃ§Ã£o
 $sync.NavInstall.Add_Checked({ $sync.PageInstall.Visibility="Visible"; $sync.PageTweaks.Visibility="Collapsed"; $sync.PageConfig.Visibility="Collapsed"; $sync.PageInfo.Visibility="Collapsed" })
 $sync.NavTweaks.Add_Checked({  $sync.PageInstall.Visibility="Collapsed"; $sync.PageTweaks.Visibility="Visible"; $sync.PageConfig.Visibility="Collapsed"; $sync.PageInfo.Visibility="Collapsed" })
 $sync.NavConfig.Add_Checked({  $sync.PageInstall.Visibility="Collapsed"; $sync.PageTweaks.Visibility="Collapsed"; $sync.PageConfig.Visibility="Visible"; $sync.PageInfo.Visibility="Collapsed" })
@@ -1358,11 +1358,11 @@ $sync.Form.Add_Closing({
     [System.GC]::Collect()
 })
 
-# ─── Boot: scan em background ─────────────────────────────────────────────────
+# â”€â”€â”€ Boot: scan em background â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Write-GuiportLog "info" "Guiport PC Optimizer a iniciar..."
 Write-GuiportLog "dim"  "  Baseado na arquitetura WPF/XAML do WinUtil"
 Set-ConStatus "Pronto" "#47FF8A"
-$sync.StatusText.Text = "● ONLINE"
+$sync.StatusText.Text = "â— ONLINE"
 
 Invoke-GuiportRunspace {
     Start-Sleep -Milliseconds 800
@@ -1377,6 +1377,6 @@ Invoke-GuiportRunspace {
     })
 } | Out-Null
 
-# ─── Mostrar janela ───────────────────────────────────────────────────────────
+# â”€â”€â”€ Mostrar janela â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 $sync.Form.ShowDialog() | Out-Null
 Stop-Process -Id $PID
